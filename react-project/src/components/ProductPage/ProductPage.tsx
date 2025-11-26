@@ -1,5 +1,5 @@
 import { useLoaderData } from "react-router";
-import Item from "../../utils/Item";
+import type { Item } from "../../utils/Item";
 import ReviewComponent from "../Review/ReviewComponent";
 import ReviewForm from "../ReviewForm/ReviewForm";
 export default function ProductPage() {

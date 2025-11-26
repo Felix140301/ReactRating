@@ -3,7 +3,7 @@ import { RouterProvider } from "react-router";
 import MainPage from "../components/MainPage/MainPage";
 import ProductPage from "../components/ProductPage/ProductPage";
 import { fetchItems } from "../services/GetItems";
-import Item from "../utils/Item";
+import type { Item } from "../utils/Item";
 
 const router = createBrowserRouter([
   {

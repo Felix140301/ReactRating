@@ -1,6 +1,6 @@
 import postReview from "../../services/PostReview";
 import React, { useState } from "react";
-import Review from "../../utils/Review";
+import type { Review } from "../../utils/Review";
 import type { Rating } from "../../utils/Rating";
 import StarRating from "../StarRating/StarRating";
 
@@ -15,7 +15,7 @@ export default function ReviewForm({ itemId }: { itemId: string }) {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const review: Review = new Review();
+    const review: Review = {} as Review;
     review.id = itemId;
     review.text = text;
     review.rating = rating;

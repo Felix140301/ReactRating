@@ -3,7 +3,7 @@ import "./MainPage.css";
 import SearchBar from "../SearchBar/SearchBar";
 import { fetchItems } from "../../services/GetItems";
 import { useEffect, useState } from "react";
-import Item from "../../utils/Item";
+import type { Item } from "../../utils/Item";
 import searchItems from "../../services/search";
 import { Outlet } from "react-router";
 

@@ -1,4 +1,4 @@
-import Item from "../utils/Item.ts";
+import type { Item } from "../utils/Item.ts";
 
 export default function searchItems(items: Item[], query: string) {
   const lowerCaseQuery = query.toLowerCase();

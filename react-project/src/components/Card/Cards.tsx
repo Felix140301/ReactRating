@@ -1,4 +1,4 @@
-import Item from "../../utils/Item";
+import type { Item } from "../../utils/Item";
 
 export default function Card(product: Item) {
   const rating = (

@@ -1,5 +1,5 @@
 import { cache } from "react";
-import type Item from "../utils/Item";
+import type { Item } from "../utils/Item";
 import APIRoutes from "../config/endpoints";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;

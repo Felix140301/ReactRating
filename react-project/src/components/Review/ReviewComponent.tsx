@@ -1,4 +1,4 @@
-import Review from "../../utils/Review";
+import type { Review } from "../../utils/Review";
 
 export default function ReviewComponent(review: Review) {
   return (

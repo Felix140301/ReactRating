@@ -1,4 +1,4 @@
-import Review from "../utils/Review";
+import type { Review } from "../utils/Review";
 import APIRoutes from "../config/endpoints";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
