@@ -6,7 +6,7 @@ export default function ProductPage() {
   const item = useLoaderData() as Item;
   return (
     <>
-      <div className="bg-gray-300/50 backdrop-blur-md h-dvh w-dvw fixed flex flex-col justify-center items-center top-0 left-0 z-0">
+      <div className="bg-gray-300/50 backdrop-blur-md h-dvh w-dvw fixed flex flex-col justify-center items-center top-0 left-0 z-10">
         <button
           onClick={() => {
             window.open("/", "_self");
@@ -15,7 +15,7 @@ export default function ProductPage() {
           Close
         </button>
         <div
-          className="max-h-[90%] max-w-[90%] md:min-w-[80%] z-10 bg-white md:p-4 sm:p-2
+          className="max-h-[90%] max-w-[90%] md:min-w-[80%] relative z-20 bg-white md:p-4 sm:p-2
       md:grid gap-4 md:grid-cols-2 md:grid-rows-2 flex flex-col  items-center overflow-y-scroll  mt-2 rounded-4xl"
         >
           <img
