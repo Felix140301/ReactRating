@@ -10,15 +10,14 @@ A brief description of what the application does and its purpose.
 
 - React
 - Vite
-- TypeScript (optional)
-- React Router (optional)
-- Tailwind / CSS Modules / Styled Components (optional)
+- TypeScript
+- React Router
+- Tailwind / CSS Modules / Styled Components
 
 ### **Backend**
 
-- Next.js (API routes)
+- Express.js
 - Node.js
-- Any additional libraries (e.g., Prisma, MongoDB, PostgreSQL)
 
 ---
 
@@ -31,21 +30,17 @@ git clone https://github.com/Felix140301/ReactRating
 cd react-rating
 ```
 
+## Install dependencies
+
 ```bash
 cd frontend
 npm install
 ```
 
+## Run development server
+
 ```bash
 npm run dev
-```
-
-```bash
-npm run build
-```
-
-```bash
-npm run build
 ```
 
 ### 2 Clone the Backend Repo
@@ -54,13 +49,13 @@ npm run build
 git clone https://github.com/tonymihut/rw-api
 ```
 
-## Setup
+## Setup Dependencies
 
 ```bash
 npm install
 ```
 
-## Running the API
+## Run the API
 
 ```bash
 npm start
