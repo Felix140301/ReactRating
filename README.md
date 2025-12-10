@@ -1,6 +1,6 @@
 # ReactRating
 
-A brief description of what the application does and its purpose.
+A small frontend interface created around an external API. It display data about coffe related items.
 
 ---
 
