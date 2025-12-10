@@ -7,25 +7,33 @@ import StarRating from "../StarRating/StarRating";
 export default function ReviewForm({ itemId }: { itemId: string }) {
   const [text, setText] = useState("");
   const [rating, setRating] = useState<Rating>(1);
-  const [errorMessage, setErrorMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
+  const [successMessage, setSuccessMessage] = useState<string>();
 
   const handleRating = (rating: number) => {
     console.log("Rating selected:", rating);
     setRating(rating as Rating);
   };
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const review: Review = {} as Review;
     review.id = itemId;
     review.text = text;
     review.rating = rating;
     if (review.text.trim() === "") {
-      setErrorMessage(true);
+      setErrorMessage("The review cannot be empty");
       return;
     }
-    setErrorMessage(false);
-    postReview(review);
+    try {
+      await postReview(review);
+    } catch (error) {
+      setErrorMessage("Failed to submit review. Please try again later.");
+      return;
+    } finally {
+      setErrorMessage("");
+      setSuccessMessage("Review submitted successfully!");
+    }
   }
 
   return (
@@ -40,9 +48,8 @@ export default function ReviewForm({ itemId }: { itemId: string }) {
           value={text}
           onChange={(e) => setText(e.target.value)}
         ></textarea>
-        <p className={errorMessage ? "mx-2 text-lg text-red-500" : "hidden"}>
-          The review cannot be empty
-        </p>
+        <p className={"mx-2 text-lg text-red-500"}>{errorMessage}</p>
+        <p className={"mx-2 text-lg text-green-600"}>{successMessage}</p>
         <StarRating ratingValue={rating} handleRating={handleRating} />
         <div className="flex justify-end items-end m-2">
           <button

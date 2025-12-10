@@ -11,12 +11,19 @@ export default function MainPage() {
   const [products, setProducts] = useState<Item[]>([]);
   const [filtredItems, setFilteredItems] = useState<Item[]>([]);
   const [searchItem, setSearchItem] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>();
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       const items = await fetchItems();
       setProducts(items);
       setFilteredItems(items);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+      setIsLoading(false);
+      throw new Error("Could not fetch items");
     };
     fetchData();
   }, []);
@@ -41,14 +48,23 @@ export default function MainPage() {
           handleLiveSearch={handleLiveSearch}
           searchItem={searchItem}
         />
-
-        <div className="grid md:grid-cols-4 mb-2 gap-2 mx-4 sm:grid-cols-1 mt-4">
-          {filtredItems.map((item: Item) => (
-            <button onClick={() => handleClick(item.id)}>
-              <Card key={item.id} {...item} />
-            </button>
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="">
+            <div className="grid md:grid-cols-4 mb-2 gap-2 mx-4 sm:grid-cols-1 mt-4">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <Card key={i} {...({} as Item)} />
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-4 mb-2 gap-2 mx-4 sm:grid-cols-1 mt-4">
+            {filtredItems.map((item: Item) => (
+              <button key={item.id} onClick={() => handleClick(item.id)}>
+                <Card {...item} />
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </>
   );
