@@ -4,7 +4,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import { fetchItems } from "../../services/GetItems";
 import { useEffect, useState } from "react";
 import type { Item } from "../../utils/Item";
-import searchItems from "../../services/search";
+import searchItems from "../../services/Search";
 import { Outlet } from "react-router";
 
 export default function MainPage() {
@@ -42,7 +42,7 @@ export default function MainPage() {
           searchItem={searchItem}
         />
 
-        <div className="grid grid-cols-4 gap-2 mx-4">
+        <div className="grid md:grid-cols-4 mb-2 gap-2 mx-4 sm:grid-cols-1 mt-4">
           {filtredItems.map((item: Item) => (
             <button onClick={() => handleClick(item.id)}>
               <Card key={item.id} {...item} />

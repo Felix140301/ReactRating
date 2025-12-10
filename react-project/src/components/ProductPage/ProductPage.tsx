@@ -15,12 +15,18 @@ export default function ProductPage() {
           Close
         </button>
         <div
-          className="max-h-[90%] max-w-[90%] min-w-[80%] z-10  bg-white 
-      grid gap-4 grid-cols-2 grid-rows-2 items-center p-4 rounded-4xl"
+          className="max-h-[90%] max-w-[90%] md:min-w-[80%] z-10 bg-white md:p-4 sm:p-2
+      md:grid gap-4 md:grid-cols-2 md:grid-rows-2 flex flex-col  items-center overflow-y-scroll  mt-2 rounded-4xl"
         >
-          <img className="rounded-2xl m-4" src={item.image} alt={item.name} />
+          <img
+            className="rounded-2xl max-w-[80%]"
+            src={item.image}
+            alt={item.name}
+          />
           <div className="flex flex-col gap-4 p-4 justify-center items-center">
-            <div className="text-2xl font-semibold">{item.name}</div>
+            <div className="md:text-2xl sm:text-lg font-semibold">
+              {item.name}
+            </div>
             <p>{item.description}</p>
           </div>
           <div className="max-h-full h-full p-4">
@@ -31,7 +37,7 @@ export default function ProductPage() {
               ))}
             </div>
           </div>
-          <div className="max-h-full h-full p-4">
+          <div className="max-h-full h-full min-w-full p-4">
             <ReviewForm itemId={item.id} />
           </div>
         </div>
