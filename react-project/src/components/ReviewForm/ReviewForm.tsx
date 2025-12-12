@@ -1,10 +1,15 @@
-import postReview from "../../services/PostReview";
 import React, { useState } from "react";
 import type { Review } from "../../utils/Review";
 import type { Rating } from "../../utils/Rating";
 import StarRating from "../StarRating/StarRating";
+import postReview from "../../services/postReview";
 
-export default function ReviewForm({ itemId }: { itemId: string }) {
+interface ReviewFormProps {
+  itemId: string;
+  onSubmited: () => void;
+}
+
+export default function ReviewForm({ itemId, onSubmited }: ReviewFormProps) {
   const [text, setText] = useState("");
   const [rating, setRating] = useState<Rating>(1);
   const [errorMessage, setErrorMessage] = useState<string>();
@@ -32,6 +37,7 @@ export default function ReviewForm({ itemId }: { itemId: string }) {
       return;
     } finally {
       setErrorMessage("");
+      onSubmited();
       setSuccessMessage("Review submitted successfully!");
     }
   }

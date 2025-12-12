@@ -1,9 +1,24 @@
 import { useLoaderData } from "react-router";
+import { useState } from "react";
 import type { Item } from "../../utils/Item";
+import type { Review } from "../../utils/Review";
 import ReviewComponent from "../Review/ReviewComponent";
 import ReviewForm from "../ReviewForm/ReviewForm";
+import getProductById from "../../services/getProductById";
+
 export default function ProductPage() {
-  const item = useLoaderData() as Item;
+  let item = useLoaderData() as Item;
+  const [reviews, setReviews] = useState<Review[]>(item.reviews);
+  const rating =
+    item.reviews.reduce((acc, review) => acc + review.rating, 0) /
+    (item.reviews.length || 1);
+
+  const handleSubmitEvent = async () => {
+    const updatedItem: Item = await getProductById(item.id);
+    console.log(updatedItem);
+    setReviews(updatedItem.reviews);
+  };
+
   return (
     <>
       <div className="bg-gray-300/50 backdrop-blur-md h-dvh w-dvw fixed flex flex-col justify-center items-center top-0 left-0 z-10">
@@ -27,17 +42,27 @@ export default function ProductPage() {
               {item.name}
             </div>
             <p>{item.description}</p>
+            <p>{rating}</p>
+            <progress
+              className="rounded-2xl w-1/2 h-1/6 [&::-webkit-progress-bar]:rounded-2xl
+           [&::-webkit-progress-value]:rounded- 2xl [&::-webkit-progress-bar]:bg-slate-300 [&::-webkit-progress-value]:bg-amber-300 
+           [&::-moz-progress-bar]:bg-amber-300 [&::-moz-progress-bar]:rounded-2xl"
+              value={Number(rating)}
+              max="5"
+            ></progress>
+
+            <div className="text-xl font-bold">{}</div>
           </div>
           <div className="max-h-full h-full p-4">
             <div className="text-xl font-semibold">Reviews</div>
             <div className="overflow-scroll max-h-[90%]">
-              {item.reviews.map((review) => (
+              {reviews.map((review) => (
                 <ReviewComponent key={review.id} {...review} />
               ))}
             </div>
           </div>
           <div className="max-h-full h-full min-w-full p-4">
-            <ReviewForm itemId={item.id} />
+            <ReviewForm itemId={item.id} onSubmited={handleSubmitEvent} />
           </div>
         </div>
       </div>
