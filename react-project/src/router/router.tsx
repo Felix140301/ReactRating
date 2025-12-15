@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router";
 import MainPage from "../components/MainPage/MainPage";
 import ProductPage from "../components/ProductPage/ProductPage";
-import { fetchItems } from "../services/GetItems";
+import { fetchItems } from "../services/getItems";
 import type { Item } from "../utils/Item";
 
 const router = createBrowserRouter([

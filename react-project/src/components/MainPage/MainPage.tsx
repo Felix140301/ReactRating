@@ -1,10 +1,10 @@
 import Card from "../Card/Cards";
 import "./MainPage.css";
 import SearchBar from "../SearchBar/SearchBar";
-import { fetchItems } from "../../services/GetItems";
+import { fetchItems } from "../../services/getItems";
 import { useEffect, useState } from "react";
 import type { Item } from "../../utils/Item";
-import searchItems from "../../services/Search";
+import searchItems from "../../services/search";
 import { Outlet } from "react-router";
 
 export default function MainPage() {
@@ -12,18 +12,23 @@ export default function MainPage() {
   const [filtredItems, setFilteredItems] = useState<Item[]>([]);
   const [searchItem, setSearchItem] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>();
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const items = await fetchItems();
-      setProducts(items);
-      setFilteredItems(items);
-      setTimeout(() => {
+      try {
+        const items = await fetchItems();
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000);
+        setProducts(items);
+        setFilteredItems(items);
+      } catch (err) {
+        setError("Failed to fetch items.");
         setIsLoading(false);
-      }, 1000);
+      }
       setIsLoading(false);
-      throw new Error("Could not fetch items");
     };
     fetchData();
   }, []);
@@ -48,6 +53,7 @@ export default function MainPage() {
           handleLiveSearch={handleLiveSearch}
           searchItem={searchItem}
         />
+
         {isLoading ? (
           <div className="">
             <div className="grid md:grid-cols-4 mb-2 gap-2 mx-4 sm:grid-cols-1 mt-4">
@@ -64,6 +70,9 @@ export default function MainPage() {
               </button>
             ))}
           </div>
+        )}
+        {error && (
+          <div className="text-red-500 text-2xl text-center">{error}</div>
         )}
       </div>
     </>
