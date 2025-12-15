@@ -8,12 +8,11 @@ export default function ProductPage() {
     <>
       <div className="bg-gray-300/50 backdrop-blur-md h-dvh w-dvw fixed flex flex-col justify-center items-center top-0 left-0 z-10">
         <button
+          className="w-dvw h-dvh fixed z-10"
           onClick={() => {
             window.open("/", "_self");
           }}
-        >
-          Close
-        </button>
+        ></button>
         <div
           className="max-h-[90%] max-w-[90%] md:min-w-[80%] relative z-20 bg-white md:p-4 sm:p-2
       md:grid gap-4 md:grid-cols-2 md:grid-rows-2 flex flex-col  items-center overflow-y-scroll  mt-2 rounded-4xl"
