@@ -1,25 +1,45 @@
-import postReview from "../../services/PostReview";
 import React, { useState } from "react";
 import type { Review } from "../../utils/Review";
 import type { Rating } from "../../utils/Rating";
 import StarRating from "../StarRating/StarRating";
+import postReview from "../../services/postReview";
 
-export default function ReviewForm({ itemId }: { itemId: string }) {
+interface ReviewFormProps {
+  itemId: string;
+  onSubmited: () => void;
+}
+
+export default function ReviewForm({ itemId, onSubmited }: ReviewFormProps) {
   const [text, setText] = useState("");
   const [rating, setRating] = useState<Rating>(1);
+  const [errorMessage, setErrorMessage] = useState<string>();
+  const [successMessage, setSuccessMessage] = useState<string>();
 
   const handleRating = (rating: number) => {
     console.log("Rating selected:", rating);
     setRating(rating as Rating);
   };
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const review: Review = {} as Review;
     review.id = itemId;
     review.text = text;
     review.rating = rating;
-    postReview(review);
+    if (review.text.trim() === "") {
+      setErrorMessage("The review cannot be empty");
+      return;
+    }
+    try {
+      await postReview(review);
+    } catch (error) {
+      setErrorMessage("Failed to submit review. Please try again later.");
+      return;
+    } finally {
+      setErrorMessage("");
+      onSubmited();
+      setSuccessMessage("Review submitted successfully!");
+    }
   }
 
   return (
@@ -34,7 +54,8 @@ export default function ReviewForm({ itemId }: { itemId: string }) {
           value={text}
           onChange={(e) => setText(e.target.value)}
         ></textarea>
-
+        <p className={"mx-2 text-lg text-red-500"}>{errorMessage}</p>
+        <p className={"mx-2 text-lg text-green-600"}>{successMessage}</p>
         <StarRating ratingValue={rating} handleRating={handleRating} />
         <div className="flex justify-end items-end m-2">
           <button
