@@ -7,6 +7,7 @@ import StarRating from "../StarRating/StarRating";
 export default function ReviewForm({ itemId }: { itemId: string }) {
   const [text, setText] = useState("");
   const [rating, setRating] = useState<Rating>(1);
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const handleRating = (rating: number) => {
     console.log("Rating selected:", rating);
@@ -19,6 +20,11 @@ export default function ReviewForm({ itemId }: { itemId: string }) {
     review.id = itemId;
     review.text = text;
     review.rating = rating;
+    if (review.text.trim() === "") {
+      setErrorMessage(true);
+      return;
+    }
+    setErrorMessage(false);
     postReview(review);
   }
 
@@ -34,7 +40,9 @@ export default function ReviewForm({ itemId }: { itemId: string }) {
           value={text}
           onChange={(e) => setText(e.target.value)}
         ></textarea>
-
+        <p className={errorMessage ? "mx-2 text-lg text-red-500" : "hidden"}>
+          The review cannot be empty
+        </p>
         <StarRating ratingValue={rating} handleRating={handleRating} />
         <div className="flex justify-end items-end m-2">
           <button
