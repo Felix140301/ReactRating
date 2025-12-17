@@ -10,13 +10,12 @@ interface ReviewFormProps {
 }
 
 export default function ReviewForm({ itemId, onSubmited }: ReviewFormProps) {
-  const [text, setText] = useState("");
-  const [rating, setRating] = useState<Rating>(1);
+  const [text, setText] = useState("Leave your review here...");
+  const [rating, setRating] = useState<Rating>(0);
   const [errorMessage, setErrorMessage] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
 
   const handleRating = (rating: number) => {
-    console.log("Rating selected:", rating);
     setRating(rating as Rating);
   };
 
@@ -24,22 +23,33 @@ export default function ReviewForm({ itemId, onSubmited }: ReviewFormProps) {
     event.preventDefault();
     const review: Review = {} as Review;
     review.id = itemId;
-    review.text = text;
     review.rating = rating;
-    if (review.text.trim() === "") {
+    review.text = text;
+    if (
+      review.text.trim() === "" ||
+      review.text === "Leave your review here..."
+    ) {
       setErrorMessage("The review cannot be empty");
       return;
     }
+
+    if (rating === 0) {
+      setErrorMessage("Please choose a rating");
+      return;
+    }
+
     try {
       await postReview(review);
     } catch (error) {
       setErrorMessage("Failed to submit review. Please try again later.");
       return;
     } finally {
-      setErrorMessage("");
+      setText("");
+      setRating(0);
       onSubmited();
-      setSuccessMessage("Review submitted successfully!");
     }
+    setErrorMessage("");
+    setSuccessMessage("Review submitted successfully!");
   }
 
   return (
@@ -51,11 +61,18 @@ export default function ReviewForm({ itemId, onSubmited }: ReviewFormProps) {
       >
         <textarea
           className="p-2 m-2 rounded-2xl resize-none bg-white h-2/3"
+          onClick={() => {
+            if (text === "Leave your review here...") {
+              setText("");
+            }
+          }}
           value={text}
           onChange={(e) => setText(e.target.value)}
         ></textarea>
         <p className={"mx-2 text-lg text-red-500"}>{errorMessage}</p>
-        <p className={"mx-2 text-lg text-green-600"}>{successMessage}</p>
+        {!errorMessage && (
+          <p className={"mx-2 text-lg text-green-600"}>{successMessage}</p>
+        )}
         <StarRating ratingValue={rating} handleRating={handleRating} />
         <div className="flex justify-end items-end m-2">
           <button

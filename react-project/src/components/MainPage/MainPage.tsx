@@ -64,6 +64,11 @@ export default function MainPage() {
           </div>
         ) : (
           <div className="grid md:grid-cols-4 mb-2 gap-2 mx-4 sm:grid-cols-1 mt-4">
+            {!error && filtredItems.length === 0 && (
+              <div className="text-center text-2xl col-span-4">
+                No items found.
+              </div>
+            )}
             {filtredItems.map((item: Item) => (
               <button key={item.id} onClick={() => handleClick(item.id)}>
                 <Card {...item} />
@@ -72,7 +77,9 @@ export default function MainPage() {
           </div>
         )}
         {error && (
-          <div className="text-red-500 text-2xl text-center">{error}</div>
+          <div className="flex justify-center items-center h-dvh absolute top-0 left-0 w-full">
+            <p className="text-red-500 text-2xl text-center">{error}</p>
+          </div>
         )}
       </div>
     </>

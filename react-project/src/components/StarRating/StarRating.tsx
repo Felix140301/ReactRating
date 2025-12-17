@@ -1,7 +1,7 @@
 import Star from "../StarComponent/Star";
 
 export default function StarRating(props: {
-  handleRating: (rating: number) => void;
+  handleRating?: (rating: number) => void;
   ratingValue: number;
 }) {
   return (
@@ -16,7 +16,7 @@ export default function StarRating(props: {
                 type="radio"
                 value={ratingValue}
                 name="rating"
-                onClick={() => props.handleRating(ratingValue)}
+                onClick={() => props.handleRating?.(ratingValue)}
               />
               <Star
                 className={`${

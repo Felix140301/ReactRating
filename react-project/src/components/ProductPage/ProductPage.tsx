@@ -1,5 +1,5 @@
 import { useLoaderData } from "react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Item } from "../../utils/Item";
 import type { Review } from "../../utils/Review";
 import ReviewComponent from "../Review/ReviewComponent";
@@ -9,9 +9,17 @@ import getProductById from "../../services/getProductById";
 export default function ProductPage() {
   let item = useLoaderData() as Item;
   const [reviews, setReviews] = useState<Review[]>(item.reviews);
-  const rating =
-    item.reviews.reduce((acc, review) => acc + review.rating, 0) /
-    (item.reviews.length || 1);
+  const [rating, setRating] = useState<number>(0);
+
+  useEffect(() => {
+    const average: number = Number(
+      Number(
+        reviews.reduce((acc, review) => acc + review.rating, 0) /
+          (reviews.length || 1)
+      ).toFixed(2)
+    );
+    setRating(average);
+  }, [reviews]);
 
   const handleSubmitEvent = async () => {
     const updatedItem: Item = await getProductById(item.id);
